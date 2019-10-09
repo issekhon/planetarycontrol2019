@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class RayViewer : MonoBehaviour {
+public class RayViewer : NetworkBehaviour {
     private gameModeManager modeManager;
     public float weaponRange = 50f;
     public Camera tpCam;
@@ -14,14 +15,18 @@ public class RayViewer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+        if (hasAuthority)
         {
-            Vector3 lineOrigin = tpCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-            Debug.DrawRay(lineOrigin, tpCam.transform.forward * weaponRange, Color.green);
-            Debug.Log("draw my debug green ray");
-        } else
-        {
-            
+            if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+            {
+                Vector3 lineOrigin = tpCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                Debug.DrawRay(lineOrigin, tpCam.transform.forward * weaponRange, Color.green);
+                Debug.Log("draw my debug green ray");
+            }
+            else
+            {
+
+            }
         }
 	}
 }

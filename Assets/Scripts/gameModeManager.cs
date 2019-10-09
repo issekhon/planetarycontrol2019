@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class gameModeManager : MonoBehaviour
+public class gameModeManager : NetworkBehaviour
 {
-    public int turn;
+    [SyncVar] public int turn;
+    [SyncVar] public int battleCountdown;
     [HideInInspector] public enum Mode { strategy, thirdperson, transitionToThirdPerson, transitionToStrategy}
+    [SyncVar] public int modeNum;
     public Mode currentMode = Mode.strategy;
     // Possible options 
-    // strategy
-    // thirdperson
+    // 0 strategy
+    // 1 thirdperson
     // transitionToThirdPerson
     // transitionToStrategy
 
@@ -22,9 +25,16 @@ public class gameModeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (modeNum == 0)
+        {
+            currentMode = Mode.strategy;
+        } else if (modeNum == 1)
+        {
+            currentMode = Mode.thirdperson;
+        }
     }
 
+    [Client]
     public void EndTurn()
     {
         if (turn == 0)
@@ -37,8 +47,35 @@ public class gameModeManager : MonoBehaviour
         }
     }
 
+    [Client]
     public void ChangeMode(Mode newMode)
     {
-        currentMode = newMode;
+            CmdChangeMode(newMode);
+        
+    }
+
+    [Command]
+    void CmdChangeMode(Mode newMode)
+    {
+            currentMode = newMode;
+            if (currentMode == Mode.strategy)
+            {
+                modeNum = 0;
+            }
+            else if (currentMode == Mode.thirdperson)
+            {
+                modeNum = 1;
+                StartCoroutine(ExecuteAfterTime(5));
+            }
+        
+    }
+
+    IEnumerator ExecuteAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        ChangeMode(Mode.strategy);
+        Debug.Log("CHANGE MODE BACK TO STRAT");
     }
 }

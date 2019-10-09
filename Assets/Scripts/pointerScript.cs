@@ -16,13 +16,16 @@ public class pointerScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (modeManager.currentMode == gameModeManager.Mode.strategy)
+        if (localPlayerAuthority)
         {
-            this.transform.Find("pointer").gameObject.SetActive(true);
-        }
-        else
-        {
-            this.transform.Find("pointer").gameObject.SetActive(false);
+            if (modeManager.currentMode == gameModeManager.Mode.strategy)
+            {
+                this.transform.Find("pointer").gameObject.SetActive(true);
+            }
+            else
+            {
+                this.transform.Find("pointer").gameObject.SetActive(false);
+            }
         }
     }
 }

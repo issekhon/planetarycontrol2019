@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -7261711258604799709}
   - component: {fileID: 2605477295794467989}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: myCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   screenHeight: 0
   horizontalBound: 50
   verticalBound: 50
+  disabledCameraMotion: 0
 --- !u!114 &8959877421081982634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 0
+  m_TransformSyncMode: 1
   m_SendInterval: 0.1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0

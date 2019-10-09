@@ -21,11 +21,32 @@ public class moveUnit : NetworkBehaviour
 
     NavMeshAgent _navMeshAgent;
 
+    public void InitializeMe()
+    {
+        modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
+
+        if (hasAuthority)
+        {
+            _navMeshAgent = this.GetComponent<NavMeshAgent>();
+
+            if (_navMeshAgent == null)
+            {
+                Debug.LogError("The nav mesh agent component is not attached to " + gameObject.name);
+            }
+            else
+            {
+                _navMeshAgent.SetDestination(this.transform.position);
+                _navMeshAgent.isStopped = true;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
         modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
 
+        
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
         if (_navMeshAgent == null)
@@ -37,6 +58,7 @@ public class moveUnit : NetworkBehaviour
             _navMeshAgent.SetDestination(this.transform.position);
             _navMeshAgent.isStopped = true;
         }
+        
         
     }
 
@@ -55,6 +77,7 @@ public class moveUnit : NetworkBehaviour
         if (hasAuthority)
         {
             // Set camera after it's been spawned
+            if (camParent == null) return;
             if (cam == null)
             {
                 cam = camParent.GetComponentInChildren<Camera>();
@@ -65,7 +88,7 @@ public class moveUnit : NetworkBehaviour
                 pointer = myPointer.transform.Find("pointer").gameObject;
             }
 
-            if (modeManager.currentMode == gameModeManager.Mode.strategy)
+            if (modeManager.currentMode == gameModeManager.Mode.strategy && _navMeshAgent != null)
             {
                 if (_navMeshAgent.isStopped)
                 {
@@ -78,7 +101,7 @@ public class moveUnit : NetworkBehaviour
 
                         if (Physics.Raycast(ray, out hit))
                         {
-                            if (hit.transform.name == "baseModel_runCycle")
+                            if (hit.transform.tag == "Player")
                             {
                                 Debug.Log("Fight engaged!");
                                 modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
@@ -111,23 +134,31 @@ public class moveUnit : NetworkBehaviour
 
     private void preDrawPath()
     {
-        currentMousPos = Input.mousePosition;
-        if (prevMousPos != null)
+        if (currentMousPos == null)
         {
+            currentMousPos = Input.mousePosition;
+            prevMousPos = currentMousPos;
+        }
+        else if (Input.mousePosition != prevMousPos)
+        {
+            currentMousPos = Input.mousePosition;
+
             if ((Math.Abs(currentMousPos.x - prevMousPos.x) > minMouseChangeDist) || (Math.Abs(currentMousPos.y - prevMousPos.y) > minMouseChangeDist))
             {
+                prevMousPos = currentMousPos;
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.transform.name == "baseModel_runCycle")
+                    if (hit.transform.tag == "Player")
                     {
                         //modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
                         Debug.Log("Hovering on enemy, change pointer color!");
                         pointer.GetComponent<Renderer>().material = enemyPointerMat;
 
-                    } else
+                    }
+                    else
                     {
                         pointer.GetComponent<Renderer>().material = defaultPointerMat;
                     }

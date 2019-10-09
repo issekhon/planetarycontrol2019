@@ -25,12 +25,7 @@ public class PlayerShoot : NetworkBehaviour {
 	void Start () {
         laserLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
-	}
-
-    private void Awake()
-    {
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
-        //transform.SetParent(hand);
     }
 
     // Update is called once per frame
@@ -38,7 +33,11 @@ public class PlayerShoot : NetworkBehaviour {
     {
         if (hasAuthority)
         {
-            if (hand == null)
+            if (playerRef == null)
+            {
+                Debug.LogError(gameObject.name + ": PLAYER REF NULL");
+            }
+            if (hand == null && playerRef != null)
             {
                 hand = playerRef.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand");
                 transform.SetParent(hand);
@@ -51,6 +50,7 @@ public class PlayerShoot : NetworkBehaviour {
             {
                 if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
                 {
+                    Debug.Log(gameObject.name + ": SHOOT PLEASE");
                     nextFire = Time.time + fireRate;
 
                     StartCoroutine(ShotEffect());

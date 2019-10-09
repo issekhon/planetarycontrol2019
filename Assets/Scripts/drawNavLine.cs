@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
-public class drawNavLine : MonoBehaviour
+public class drawNavLine : NetworkBehaviour
 {
     private gameModeManager modeManager;
     private NavMeshAgent agentToDraw;
@@ -21,23 +22,26 @@ public class drawNavLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (modeManager.currentMode == gameModeManager.Mode.strategy)
+        if (hasAuthority)
         {
-            if (agentToDraw.hasPath)
+            if (modeManager.currentMode == gameModeManager.Mode.strategy)
             {
-                lineR.positionCount = agentToDraw.path.corners.Length;
-                Vector3[] positionsToSet = agentToDraw.path.corners;
-                for (int i = 0; i < positionsToSet.Length; i++)
+                if (agentToDraw.hasPath)
                 {
-                    positionsToSet[i].y += lineHeight;
+                    lineR.positionCount = agentToDraw.path.corners.Length;
+                    Vector3[] positionsToSet = agentToDraw.path.corners;
+                    for (int i = 0; i < positionsToSet.Length; i++)
+                    {
+                        positionsToSet[i].y += lineHeight;
+                    }
+                    lineR.SetPositions(positionsToSet);
+                    lineR.enabled = true;
                 }
-                lineR.SetPositions(positionsToSet);
-                lineR.enabled = true;
             }
-        }
-        else
-        {           
-            lineR.enabled = false;
+            else
+            {
+                lineR.enabled = false;
+            }
         }
     }
 }

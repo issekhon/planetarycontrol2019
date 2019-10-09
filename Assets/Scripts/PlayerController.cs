@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
     private gameModeManager modeManager;
 
     public float walkSpeed = 2;
@@ -34,82 +35,86 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (cameraT == null)
+        if (hasAuthority)
         {
-            return;
-        } 
 
-        if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
-        {
-            Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            Vector2 inputDir = input.normalized;
-
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (cameraT == null)
             {
-                Jump();
+                return;
             }
 
-            //if (inputDir != Vector2.zero)
-            //{
-            float targetRotation = Mathf.Atan2(0, 1) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
-            //}
+            if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+            {
+                Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                Vector2 inputDir = input.normalized;
 
-            bool running = Input.GetKey(KeyCode.LeftShift);
-            float targetSpeed = ((running) ? runSpeed : walkSpeed) * inputDir.magnitude;
-            currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Jump();
+                }
 
-            velocityY += Time.deltaTime * gravity;
-            velocity = Vector3.zero;
-            if (inputDir.x > 0)
-            {
-                velocity = transform.right * currentSpeed + Vector3.up * velocityY;
-            }
-            else if (inputDir.x < 0)
-            {
-                velocity = -1 * transform.right * currentSpeed + Vector3.up * velocityY;
-            }
-            if (inputDir.y > 0)
-            {
-                if (velocity == Vector3.zero)
+                //if (inputDir != Vector2.zero)
+                //{
+                float targetRotation = Mathf.Atan2(0, 1) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+                //}
+
+                bool running = Input.GetKey(KeyCode.LeftShift);
+                float targetSpeed = ((running) ? runSpeed : walkSpeed) * inputDir.magnitude;
+                currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
+
+                velocityY += Time.deltaTime * gravity;
+                velocity = Vector3.zero;
+                if (inputDir.x > 0)
+                {
+                    velocity = transform.right * currentSpeed + Vector3.up * velocityY;
+                }
+                else if (inputDir.x < 0)
+                {
+                    velocity = -1 * transform.right * currentSpeed + Vector3.up * velocityY;
+                }
+                if (inputDir.y > 0)
+                {
+                    if (velocity == Vector3.zero)
+                    {
+                        velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
+                    }
+                    else
+                    {
+                        velocity /= 2;
+                        velocity += transform.forward * currentSpeed / 1.2f;
+                    }
+                }
+                else if (inputDir.y < 0)
+                {
+                    if (velocity == Vector3.zero)
+                    {
+                        velocity = -1 * transform.forward * currentSpeed + Vector3.up * velocityY;
+                    }
+                    else
+                    {
+                        velocity /= 2;
+                        velocity += -1 * transform.forward * currentSpeed / 1.2f;
+                    }
+                }
+                if (inputDir.x == 0 && inputDir.y == 0)
                 {
                     velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
                 }
-                else
+                //Vector3 velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
+
+                controller.Move(velocity * Time.deltaTime);
+                currentSpeed = new Vector2(controller.velocity.x, controller.velocity.z).magnitude;
+
+                if (controller.isGrounded)
                 {
-                    velocity /= 2;
-                    velocity += transform.forward * currentSpeed / 1.2f;
+                    velocityY = 0;
                 }
-            }
-            else if (inputDir.y < 0)
-            {
-                if (velocity == Vector3.zero)
-                {
-                    velocity = -1 * transform.forward * currentSpeed + Vector3.up * velocityY;
-                }
-                else
-                {
-                    velocity /= 2;
-                    velocity += -1 * transform.forward * currentSpeed / 1.2f;
-                }
-            }
-            if (inputDir.x == 0 && inputDir.y == 0)
-            {
-                velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
-            }
-            //Vector3 velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
 
-            controller.Move(velocity * Time.deltaTime);
-            currentSpeed = new Vector2(controller.velocity.x, controller.velocity.z).magnitude;
+                float animationSpeedPercent = ((running) ? currentSpeed / runSpeed : currentSpeed / walkSpeed * .5f);
+                animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
 
-            if (controller.isGrounded)
-            {
-                velocityY = 0;
             }
-
-            float animationSpeedPercent = ((running) ? currentSpeed / runSpeed : currentSpeed / walkSpeed * .5f);
-            animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
-
         }
     }
 
