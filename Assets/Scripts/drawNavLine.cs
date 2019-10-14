@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-public class drawNavLine : NetworkBehaviour
+public class drawNavLine : MonoBehaviour
 {
     private gameModeManager modeManager;
     private NavMeshAgent agentToDraw;
@@ -22,8 +22,8 @@ public class drawNavLine : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (modeManager.currentMode == gameModeManager.Mode.strategy)
             {
                 if (agentToDraw.hasPath)
@@ -42,6 +42,6 @@ public class drawNavLine : NetworkBehaviour
             {
                 lineR.enabled = false;
             }
-        }
+        //}
     }
 }

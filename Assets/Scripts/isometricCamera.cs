@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class isometricCamera : NetworkBehaviour
+public class isometricCamera : MonoBehaviour
 {
     private gameModeManager modeManager;
 
@@ -26,8 +26,8 @@ public class isometricCamera : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (cameraTarget == null)
             {
                 Debug.Log("Have auth but No camera target for :" + gameObject.name);
@@ -42,10 +42,10 @@ public class isometricCamera : NetworkBehaviour
             {
                 if (!disabledCameraMotion) MoveCam();
             }
-        } else
-        {
-            Debug.Log("I don't have authority over: " + gameObject.name);
-        }
+        //} else
+        //{
+        //    Debug.Log("I don't have authority over: " + gameObject.name);
+        //}
     }
 
     void MoveCam()

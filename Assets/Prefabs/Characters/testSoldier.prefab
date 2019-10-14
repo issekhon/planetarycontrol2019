@@ -681,8 +681,6 @@ GameObject:
   - component: {fileID: 6614353157362132649}
   - component: {fileID: 6614353157362132646}
   - component: {fileID: 6614353157362132647}
-  - component: {fileID: -2919407576395051249}
-  - component: {fileID: -2033763610151169973}
   m_Layer: 0
   m_Name: testSoldier
   m_TagString: Player
@@ -699,7 +697,7 @@ Transform:
   m_GameObject: {fileID: 2948461585945703272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.48, y: 7.631413e-18, z: -1.5}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4338663705580574489}
   - {fileID: 3896444992134296511}
@@ -779,7 +777,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4565884009001823619, guid: 4269e769ec38e454ab291701bf45865e, type: 3}
+  - {fileID: 2100000, guid: 93061351fad87b447a5507b624ae4897, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -877,7 +875,7 @@ MonoBehaviour:
   turnSmoothTime: 0.03
   speedSmoothTime: 0.1
   velocity: {x: 0, y: 0, z: 0}
-  cameraT: {fileID: 0}
+  cameraThirdPerson: {fileID: 0}
 --- !u!114 &6614353157362132649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,61 +931,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineHeight: 1
---- !u!114 &-2919407576395051249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2948461585945703272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &-2033763610151169973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2948461585945703272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 4
-  m_SendInterval: 0.04761905
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 1
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 10.88
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!1 &3016265402503089713
 GameObject:
   m_ObjectHideFlags: 0

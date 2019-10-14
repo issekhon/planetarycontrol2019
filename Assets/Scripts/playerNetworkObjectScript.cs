@@ -74,7 +74,7 @@ public class playerNetworkObjectScript : NetworkBehaviour
         instCam.transform.parent = instCamParent.transform;
         instCamParent.GetComponent<cameraLocScript>().myAttachedCam = instCam;
         instSoldier.GetComponent<moveUnit>().camParent = instCamParent;
-        instSoldier.GetComponent<PlayerController>().cameraT = instCamParent.GetComponentInChildren<Camera>().transform;
+        instSoldier.GetComponent<PlayerController>().cameraThirdPerson = instCamParent.GetComponentInChildren<Camera>().transform;
         instCamParent.GetComponentInChildren<Camera>().GetComponent<ThirdPersonCamera>().target = instSoldier.transform.Find("ybotTarget");
         instCam.GetComponent<isometricCamera>().cameraTarget = instCamParent.transform;
         instCam.transform.position = instCamParent.transform.position;
@@ -114,7 +114,7 @@ public class playerNetworkObjectScript : NetworkBehaviour
         tempCam.transform.parent = tempCamParent.transform;
         tempCamParent.GetComponent<cameraLocScript>().myAttachedCam = tempCam;
         tempSoldier.GetComponent<moveUnit>().camParent = tempCamParent;
-        tempSoldier.GetComponent<PlayerController>().cameraT = tempCamParent.GetComponentInChildren<Camera>().transform;
+        tempSoldier.GetComponent<PlayerController>().cameraThirdPerson = tempCamParent.GetComponentInChildren<Camera>().transform;
         tempCamParent.GetComponentInChildren<Camera>().GetComponent<ThirdPersonCamera>().target = tempSoldier.transform.Find("ybotTarget");
         tempCam.GetComponent<isometricCamera>().cameraTarget = tempCamParent.transform;
         tempCam.transform.position = tempCamParent.transform.position;

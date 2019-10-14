@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class pointerScript : NetworkBehaviour
+public class pointerScript : MonoBehaviour
 {
     private gameModeManager modeManager;
 
@@ -16,8 +16,8 @@ public class pointerScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (localPlayerAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (modeManager.currentMode == gameModeManager.Mode.strategy)
             {
                 this.transform.Find("pointer").gameObject.SetActive(true);
@@ -26,6 +26,6 @@ public class pointerScript : NetworkBehaviour
             {
                 this.transform.Find("pointer").gameObject.SetActive(false);
             }
-        }
+        //}
     }
 }

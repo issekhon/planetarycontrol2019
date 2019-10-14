@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ThirdPersonCamera : NetworkBehaviour {
+public class ThirdPersonCamera : MonoBehaviour {
 
     private gameModeManager modeManager;
 
@@ -33,8 +33,8 @@ public class ThirdPersonCamera : NetworkBehaviour {
 
     // Update is called once per frame
     void LateUpdate () {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
             {
                 yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -47,6 +47,6 @@ public class ThirdPersonCamera : NetworkBehaviour {
 
                 transform.position = target.position - transform.forward * dstFromTarget;
             }
-        }
+        //}
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RayViewer : NetworkBehaviour {
+public class RayViewer : MonoBehaviour {
     private gameModeManager modeManager;
     public float weaponRange = 50f;
     public Camera tpCam;
@@ -15,8 +15,8 @@ public class RayViewer : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
             {
                 Vector3 lineOrigin = tpCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
@@ -27,6 +27,6 @@ public class RayViewer : NetworkBehaviour {
             {
 
             }
-        }
+        //}
 	}
 }

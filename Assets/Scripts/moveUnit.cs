@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-public class moveUnit : NetworkBehaviour
+public class moveUnit : MonoBehaviour
 {
     private gameModeManager modeManager;
     public GameObject myPointer;
@@ -25,8 +25,8 @@ public class moveUnit : NetworkBehaviour
     {
         modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
 
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
             if (_navMeshAgent == null)
@@ -38,11 +38,11 @@ public class moveUnit : NetworkBehaviour
                 _navMeshAgent.SetDestination(this.transform.position);
                 _navMeshAgent.isStopped = true;
             }
-        }
+        //}
     }
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
 
@@ -74,8 +74,8 @@ public class moveUnit : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             // Set camera after it's been spawned
             if (camParent == null) return;
             if (cam == null)
@@ -105,6 +105,7 @@ public class moveUnit : NetworkBehaviour
                             {
                                 Debug.Log("Fight engaged!");
                                 modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
+                                return;
                             }
 
                             NavMeshHit closestPoint;
@@ -125,7 +126,7 @@ public class moveUnit : NetworkBehaviour
                     }
                 }
             }
-        }
+        //}
     }
 
     private Vector3 prevMousPos;
@@ -169,6 +170,7 @@ public class moveUnit : NetworkBehaviour
                     {
                         _navMeshAgent.SetDestination(closestPoint.position);
                         myPointer.transform.position = closestPoint.position;
+                        
                         _navMeshAgent.isStopped = true;
                     }
                 }

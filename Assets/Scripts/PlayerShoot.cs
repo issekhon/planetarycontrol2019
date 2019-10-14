@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerShoot : NetworkBehaviour {
+public class PlayerShoot : MonoBehaviour {
     private gameModeManager modeManager;
 
     public GameObject playerRef;
@@ -31,8 +31,8 @@ public class PlayerShoot : NetworkBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             if (playerRef == null)
             {
                 Debug.LogError(gameObject.name + ": PLAYER REF NULL");
@@ -70,7 +70,7 @@ public class PlayerShoot : NetworkBehaviour {
                     }
                 }
             }
-        }
+        //}
 	}
 
     private IEnumerator ShotEffect()

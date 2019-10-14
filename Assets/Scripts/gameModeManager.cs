@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class gameModeManager : NetworkBehaviour
+public class gameModeManager : MonoBehaviour
 {
-    [SyncVar] public int turn;
-    [SyncVar] public int battleCountdown;
+    public int turn;
+    public int battleCountdown;
     [HideInInspector] public enum Mode { strategy, thirdperson, transitionToThirdPerson, transitionToStrategy}
-    [SyncVar] public int modeNum;
+    public int modeNum;
     public Mode currentMode = Mode.strategy;
     // Possible options 
     // 0 strategy
@@ -25,16 +25,9 @@ public class gameModeManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (modeNum == 0)
-        {
-            currentMode = Mode.strategy;
-        } else if (modeNum == 1)
-        {
-            currentMode = Mode.thirdperson;
-        }
+
     }
 
-    [Client]
     public void EndTurn()
     {
         if (turn == 0)
@@ -47,27 +40,19 @@ public class gameModeManager : NetworkBehaviour
         }
     }
 
-    [Client]
     public void ChangeMode(Mode newMode)
     {
-            CmdChangeMode(newMode);
-        
-    }
+        currentMode = newMode;
+        if (currentMode == Mode.strategy)
+        {
+            modeNum = 0;
+        }
+        else if (currentMode == Mode.thirdperson)
+        {
+            modeNum = 1;
+            StartCoroutine(ExecuteAfterTime(5));
+        }
 
-    [Command]
-    void CmdChangeMode(Mode newMode)
-    {
-            currentMode = newMode;
-            if (currentMode == Mode.strategy)
-            {
-                modeNum = 0;
-            }
-            else if (currentMode == Mode.thirdperson)
-            {
-                modeNum = 1;
-                StartCoroutine(ExecuteAfterTime(5));
-            }
-        
     }
 
     IEnumerator ExecuteAfterTime(float time)

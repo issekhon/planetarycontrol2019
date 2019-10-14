@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerController : NetworkBehaviour {
+public class PlayerController : MonoBehaviour {
     private gameModeManager modeManager;
 
     public float walkSpeed = 2;
@@ -21,7 +21,7 @@ public class PlayerController : NetworkBehaviour {
     public Vector3 velocity;
 
     Animator animator;
-    public Transform cameraT;
+    public Transform cameraThirdPerson;
     CharacterController controller;
 
 	// Use this for initialization
@@ -35,10 +35,10 @@ public class PlayerController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
 
-            if (cameraT == null)
+            if (cameraThirdPerson == null)
             {
                 return;
             }
@@ -55,7 +55,7 @@ public class PlayerController : NetworkBehaviour {
 
                 //if (inputDir != Vector2.zero)
                 //{
-                float targetRotation = Mathf.Atan2(0, 1) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
+                float targetRotation = Mathf.Atan2(0, 1) * Mathf.Rad2Deg + cameraThirdPerson.eulerAngles.y;
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
                 //}
 
@@ -115,7 +115,7 @@ public class PlayerController : NetworkBehaviour {
                 animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
 
             }
-        }
+        //}
     }
 
     void Jump()
