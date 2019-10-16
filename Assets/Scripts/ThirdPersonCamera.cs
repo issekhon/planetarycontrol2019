@@ -23,7 +23,6 @@ public class ThirdPersonCamera : MonoBehaviour {
     private void Awake()
     {
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
-
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -47,6 +46,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 
                 transform.position = target.position - transform.forward * dstFromTarget;
             }
+            
         //}
-	}
+    }
 }

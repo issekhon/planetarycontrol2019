@@ -7,6 +7,7 @@ public class gameModeManager : MonoBehaviour
 {
     public int turn;
     public int battleCountdown;
+    public float transitionDuration = 5f;
     [HideInInspector] public enum Mode { strategy, thirdperson, transitionToThirdPerson, transitionToStrategy}
     public int modeNum;
     public Mode currentMode = Mode.strategy;
@@ -52,6 +53,10 @@ public class gameModeManager : MonoBehaviour
             modeNum = 1;
             StartCoroutine(ExecuteAfterTime(5));
         }
+        else if (currentMode == Mode.transitionToThirdPerson)
+        {
+            StartCoroutine(ThirdPersonAfterTime(transitionDuration));
+        }
 
     }
 
@@ -62,5 +67,14 @@ public class gameModeManager : MonoBehaviour
         // Code to execute after the delay
         ChangeMode(Mode.strategy);
         Debug.Log("CHANGE MODE BACK TO STRAT");
+    }
+
+    IEnumerator ThirdPersonAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        ChangeMode(Mode.thirdperson);
+        Debug.Log("CHANGE MODE TO THIRD PERSON");
     }
 }

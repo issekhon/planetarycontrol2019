@@ -755,7 +755,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1.85
   m_Radius: 0.29
-  m_SlopeLimit: 45
+  m_SlopeLimit: 70.76
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -869,9 +869,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
-  runSpeed: 9
+  runSpeed: 5
   gravity: -12
-  jumpHeight: 2
+  jumpHeight: 1
   turnSmoothTime: 0.03
   speedSmoothTime: 0.1
   velocity: {x: 0, y: 0, z: 0}
@@ -894,6 +894,7 @@ MonoBehaviour:
   camParent: {fileID: 0}
   cam: {fileID: 0}
   selected: 0
+  mouseHovering: 0
   _destination: {fileID: 0}
   minMouseChangeDist: 5
 --- !u!195 &6614353157362132646

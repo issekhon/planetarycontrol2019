@@ -16,6 +16,8 @@ public class moveUnit : MonoBehaviour
     public GameObject camParent;
     public Camera cam;
     public bool selected = false;
+    public bool mouseHovering = false;
+    Outline myOutline;
 
     [SerializeField] Transform _destination;
 
@@ -58,8 +60,11 @@ public class moveUnit : MonoBehaviour
             _navMeshAgent.SetDestination(this.transform.position);
             _navMeshAgent.isStopped = true;
         }
-        
-        
+
+        myOutline = gameObject.AddComponent<Outline>();
+        myOutline.OutlineMode = Outline.Mode.OutlineAll;
+        myOutline.OutlineColor = Color.white;
+        myOutline.OutlineWidth = 0f;
     }
 
     private void SetDestination()
@@ -90,8 +95,40 @@ public class moveUnit : MonoBehaviour
 
             if (modeManager.currentMode == gameModeManager.Mode.strategy && _navMeshAgent != null)
             {
-                if (_navMeshAgent.isStopped)
+                if (!selected)
                 {
+                    Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hitCheck;
+
+
+                    if (Physics.Raycast(camRay, out hitCheck))
+                    {
+                        if (hitCheck.transform.tag == "Player")
+                        {
+                            
+                            Debug.Log("Hovering on player select");
+                            
+                            //myOutline.OutlineMode = Outline.Mode.OutlineAll;
+                            //myOutline.OutlineColor = Color.white;
+                            if (myOutline.OutlineWidth == 0f) myOutline.OutlineWidth = 5f;
+                            if (Input.GetMouseButtonDown(0)) { selected = true; return; }
+                    }
+                        else
+                        {
+                            if (myOutline.OutlineWidth > 0f)
+                            {
+                                myOutline.OutlineWidth = 0f;
+                            }
+                        }
+                    }
+                }
+
+
+                if (selected && _navMeshAgent.isStopped)
+                {
+                    if (myOutline.OutlineWidth == 0f) myOutline.OutlineWidth = 5f;
+                    if (myOutline.OutlineColor != Color.blue) myOutline.OutlineColor = Color.blue;
+
                     preDrawPath();
 
                     if (Input.GetMouseButtonDown(0))
@@ -101,10 +138,11 @@ public class moveUnit : MonoBehaviour
 
                         if (Physics.Raycast(ray, out hit))
                         {
-                            if (hit.transform.tag == "Player")
+                            if (hit.transform.tag == "Enemy")
                             {
                                 Debug.Log("Fight engaged!");
-                                modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
+                                modeManager.ChangeMode(gameModeManager.Mode.transitionToThirdPerson);
+                                myOutline.OutlineWidth = 0f;
                                 return;
                             }
 
@@ -152,7 +190,7 @@ public class moveUnit : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.transform.tag == "Player")
+                    if (hit.transform.tag == "Enemy")
                     {
                         //modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
                         Debug.Log("Hovering on enemy, change pointer color!");

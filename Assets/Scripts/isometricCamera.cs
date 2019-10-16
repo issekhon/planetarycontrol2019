@@ -38,14 +38,33 @@ public class isometricCamera : MonoBehaviour
             }
             screenWidth = Screen.width;
             screenHeight = Screen.height;
-            if (modeManager.currentMode == gameModeManager.Mode.strategy)
-            {
-                if (!disabledCameraMotion) MoveCam();
-            }
+        if (modeManager.currentMode == gameModeManager.Mode.strategy)
+        {
+            if (!disabledCameraMotion) MoveCam();
+        }
         //} else
         //{
         //    Debug.Log("I don't have authority over: " + gameObject.name);
         //}
+    }
+
+    public Transform targetTransitionPoint;
+    public float camSpeed = 4f;
+
+    private void LateUpdate()
+    {
+        if (modeManager.currentMode == gameModeManager.Mode.transitionToThirdPerson)
+        {
+            //Lerp position
+            transform.position = Vector3.Lerp(transform.position, targetTransitionPoint.position, Time.deltaTime * camSpeed);
+
+            Vector3 currentAngle = new Vector3(
+                Mathf.LerpAngle(transform.rotation.eulerAngles.x, targetTransitionPoint.transform.rotation.eulerAngles.x, Time.deltaTime * camSpeed),
+                Mathf.LerpAngle(transform.rotation.eulerAngles.y, targetTransitionPoint.transform.rotation.eulerAngles.y, Time.deltaTime * camSpeed),
+                Mathf.LerpAngle(transform.rotation.eulerAngles.z, targetTransitionPoint.transform.rotation.eulerAngles.z, Time.deltaTime * camSpeed));
+
+            transform.eulerAngles = currentAngle;
+        }
     }
 
     void MoveCam()

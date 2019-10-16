@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8959877421081982633}
   - component: {fileID: -170832472244830055}
   - component: {fileID: 1344336160980639006}
+  - component: {fileID: -4381435061182698616}
   m_Layer: 8
   m_Name: myCamera
   m_TagString: Untagged
@@ -108,6 +109,8 @@ MonoBehaviour:
   horizontalBound: 50
   verticalBound: 50
   disabledCameraMotion: 0
+  targetTransitionPoint: {fileID: 0}
+  camSpeed: 4
 --- !u!114 &8959877421081982634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,9 +123,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ead291590e163418c2fe770c83c413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetUnit: {fileID: 0}
   lockCursor: 0
   mouseSensitivity: 5
   target: {fileID: 0}
+  newPos: {fileID: 0}
   dstFromTarget: 5
   pitchMinMax: {x: -40, y: 85}
   rotationSmoothTime: 0.01
@@ -215,3 +220,16 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!135 &-4381435061182698616
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959877421081982636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3437526
+  m_Center: {x: -0.0050043166, y: -0.00000039207043, z: 0.15124315}
