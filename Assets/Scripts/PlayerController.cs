@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     private gameModeManager modeManager;
@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour {
     float turnSmoothVelocity;
 
     public float speedSmoothTime = 0.1f;
-    float speedSmoothVelocity;
+
+	float speedSmoothVelocity;
     float currentSpeed;
     float velocityY;
     public Vector3 velocity;
@@ -24,6 +25,16 @@ public class PlayerController : MonoBehaviour {
     public Transform cameraThirdPerson;
     CharacterController controller;
 
+	//health bar and action bar
+	public Image healthBarImg;
+	public Image ActionBarImg;
+	public float fullHealth = 100;
+	public int fullActionPoints = 2;
+	int currentActionPoints;
+	float currentHealth;
+	public GameObject healthBarPrefab;
+	public GameObject actionPointsBarPrefab;
+
 	// Use this for initialization
 	void Start () {
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
@@ -31,14 +42,37 @@ public class PlayerController : MonoBehaviour {
         //cameraT = Camera.main.transform;
         controller = GetComponent<CharacterController>();
         velocity = Vector3.zero;
-    }
+
+
+
+
+		//intialize and fill health bar
+		//ToDo:Here should find a current game object[this]
+		Transform character = GameObject.Find("testSoldier").transform;
+		Instantiate(healthBarPrefab, new Vector3(6.50f, 2.40f, -1.11f), Quaternion.Euler(-45, 45, 0), character);
+		Instantiate(actionPointsBarPrefab, new Vector3(6.53f, 2.16f, -1.11f), Quaternion.Euler(-45, 45, 0), character);
+
+		currentHealth = fullHealth;
+		currentActionPoints = fullActionPoints;
+
+		healthBarImg.fillAmount = 1.0f;
+		ActionBarImg.fillAmount = 1.0f;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        //if (hasAuthority)
-        //{
+		//if (hasAuthority)
+		//{
 
-            if (cameraThirdPerson == null)
+        //testing
+        if(currentHealth > 0)
+		{
+			currentHealth -= Time.deltaTime;
+			healthBarImg.fillAmount = currentHealth / fullHealth;
+		}
+		
+
+			if (cameraThirdPerson == null)
             {
                 return;
             }
