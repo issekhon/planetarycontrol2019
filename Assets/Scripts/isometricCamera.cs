@@ -7,6 +7,8 @@ public class isometricCamera : MonoBehaviour
 {
     private gameModeManager modeManager;
 
+    public GameObject selectedPlayer;
+
     public Transform cameraTarget;
     [SerializeField] public float speed = 5;
     [SerializeField] private bool isCamMoving = false;
@@ -16,11 +18,16 @@ public class isometricCamera : MonoBehaviour
     [SerializeField] public int verticalBound = 30;
     public bool disabledCameraMotion;
 
+    private Transform startTrans;
+    Quaternion rotation;
+
 
     // Start is called before the first frame update
     void Awake()
     {
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
+        startTrans = this.transform;
+        rotation = startTrans.rotation;
     }
 
     // Update is called once per frame
@@ -55,6 +62,7 @@ public class isometricCamera : MonoBehaviour
     {
         if (modeManager.currentMode == gameModeManager.Mode.transitionToThirdPerson)
         {
+            if (targetTransitionPoint != selectedPlayer.transform.Find("ybotTarget").transform) targetTransitionPoint = selectedPlayer.transform.Find("ybotTarget").transform;
             //Lerp position
             transform.position = Vector3.Lerp(transform.position, targetTransitionPoint.position, Time.deltaTime * camSpeed);
 
@@ -64,11 +72,17 @@ public class isometricCamera : MonoBehaviour
                 Mathf.LerpAngle(transform.rotation.eulerAngles.z, targetTransitionPoint.transform.rotation.eulerAngles.z, Time.deltaTime * camSpeed));
 
             transform.eulerAngles = currentAngle;
+
+            if (Vector3.Distance(transform.position, targetTransitionPoint.position) <= 0.1)
+            {
+                modeManager.ChangeMode(gameModeManager.Mode.thirdperson);
+            }
         }
     }
 
     void MoveCam()
     {
+        if (transform.rotation != rotation) transform.rotation = rotation;
         if (Input.mousePosition.x > screenWidth - horizontalBound)
         {
             isCamMoving = true;

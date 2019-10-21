@@ -7,6 +7,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 
     private gameModeManager modeManager;
 
+    public GameObject selectedPlayer;
+
     public bool lockCursor;
     public float mouseSensitivity = 10;
     public Transform target;
@@ -30,12 +32,16 @@ public class ThirdPersonCamera : MonoBehaviour {
         }
     }
 
+    public Transform targetTransitionPoint;
+    public float camSpeed = 4f;
+
     // Update is called once per frame
     void LateUpdate () {
         //if (hasAuthority)
         //{
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
             {
+                if (target != selectedPlayer.transform.Find("ybotTarget").transform) target = selectedPlayer.transform.Find("ybotTarget").transform;
                 yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
                 pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
                 pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
@@ -46,6 +52,22 @@ public class ThirdPersonCamera : MonoBehaviour {
 
                 transform.position = target.position - transform.forward * dstFromTarget;
             }
+            else if (modeManager.currentMode == gameModeManager.Mode.transitionToStrategy)
+            {
+                //Lerp position
+                transform.position = Vector3.Lerp(transform.position, targetTransitionPoint.position, Time.deltaTime * camSpeed);
+
+                Vector3 currentAngle = new Vector3(
+                    Mathf.LerpAngle(transform.rotation.eulerAngles.x, targetTransitionPoint.transform.rotation.eulerAngles.x + 45, Time.deltaTime * camSpeed),
+                    Mathf.LerpAngle(transform.rotation.eulerAngles.y, targetTransitionPoint.transform.rotation.eulerAngles.y, Time.deltaTime * camSpeed),
+                    Mathf.LerpAngle(transform.rotation.eulerAngles.z, targetTransitionPoint.transform.rotation.eulerAngles.z, Time.deltaTime * camSpeed));
+
+                transform.eulerAngles = currentAngle;
+                if (Vector3.Distance(transform.position, targetTransitionPoint.position) <= 0.01)
+                {
+                    modeManager.ChangeMode(gameModeManager.Mode.strategy);
+                }
+        }
             
         //}
     }

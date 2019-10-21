@@ -9,7 +9,9 @@ public class drawNavLine : MonoBehaviour
     private gameModeManager modeManager;
     private NavMeshAgent agentToDraw;
     private LineRenderer lineR;
+    private moveUnit myMoveUnit;
     public float lineHeight;
+    public float pathLength;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,7 @@ public class drawNavLine : MonoBehaviour
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
         agentToDraw = GetComponent<NavMeshAgent>();
         lineR = GetComponent<LineRenderer>();
+        myMoveUnit = GetComponent<moveUnit>();
     }
 
     // Update is called once per frame
@@ -26,6 +29,7 @@ public class drawNavLine : MonoBehaviour
         //{
             if (modeManager.currentMode == gameModeManager.Mode.strategy)
             {
+                if (!myMoveUnit.selected && lineR.enabled == true) { lineR.enabled = false; return; }
                 if (agentToDraw.hasPath)
                 {
                     lineR.positionCount = agentToDraw.path.corners.Length;
@@ -34,8 +38,19 @@ public class drawNavLine : MonoBehaviour
                     {
                         positionsToSet[i].y += lineHeight;
                     }
+                    Vector3 current = positionsToSet[0];
+                    pathLength = 0;
+                    for (int i = 1; i < positionsToSet.Length; i++)
+                    {
+                        pathLength += (Vector3.Distance(current, positionsToSet[i]));
+                        current = positionsToSet[i];
+                    }
                     lineR.SetPositions(positionsToSet);
                     lineR.enabled = true;
+                }
+                else
+                {
+                    pathLength = 0;
                 }
             }
             else

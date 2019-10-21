@@ -21,7 +21,7 @@ public class RayViewer : MonoBehaviour {
             {
                 Vector3 lineOrigin = tpCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
                 Debug.DrawRay(lineOrigin, tpCam.transform.forward * weaponRange, Color.green);
-                Debug.Log("draw my debug green ray");
+                //Debug.Log("draw my debug green ray");
             }
             else
             {

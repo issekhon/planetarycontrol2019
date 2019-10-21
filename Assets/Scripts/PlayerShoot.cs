@@ -37,16 +37,19 @@ public class PlayerShoot : MonoBehaviour {
             {
                 Debug.LogError(gameObject.name + ": PLAYER REF NULL");
             }
-            if (hand == null && playerRef != null)
-            {
-                hand = playerRef.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand");
-                transform.SetParent(hand);
-                transform.position = hand.transform.position;
-                transform.Rotate(180, 0, 180);
-                transform.Translate(0, 0.1f, -0.5f);
-            }
+            //if (hand == null && playerRef != null)
+            //{
+            //    hand = playerRef.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand");
+            //    transform.SetParent(hand);
+            //    transform.position = hand.transform.position;
+            //    //transform.Rotate(180, 0, 180);
+            //    //transform.Translate(0, 0.1f, -0.5f);
+            //} else if (hand != null)
+            //{
+            //    transform.SetParent(hand);
+            //}
 
-            if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+            if (modeManager.currentMode == gameModeManager.Mode.thirdperson && playerRef.GetComponent<moveUnit>().selected)
             {
                 if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
                 {

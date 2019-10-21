@@ -8,6 +8,7 @@ public class gameModeManager : MonoBehaviour
     public int turn;
     public int battleCountdown;
     public float transitionDuration = 5f;
+    public float fightDuration = 2f;
     [HideInInspector] public enum Mode { strategy, thirdperson, transitionToThirdPerson, transitionToStrategy}
     public int modeNum;
     public Mode currentMode = Mode.strategy;
@@ -44,6 +45,7 @@ public class gameModeManager : MonoBehaviour
     public void ChangeMode(Mode newMode)
     {
         currentMode = newMode;
+        Debug.Log(this.transform.name + ": Transitioning to mode " + currentMode);
         if (currentMode == Mode.strategy)
         {
             modeNum = 0;
@@ -51,13 +53,24 @@ public class gameModeManager : MonoBehaviour
         else if (currentMode == Mode.thirdperson)
         {
             modeNum = 1;
-            StartCoroutine(ExecuteAfterTime(5));
+            StartCoroutine(TransitionStrategyAfterTime(fightDuration));
         }
         else if (currentMode == Mode.transitionToThirdPerson)
         {
-            StartCoroutine(ThirdPersonAfterTime(transitionDuration));
+            //StartCoroutine(ThirdPersonAfterTime(transitionDuration));
+        } else if (currentMode == Mode.transitionToStrategy) {
+            //StartCoroutine(ExecuteAfterTime(transitionDuration));
         }
 
+    }
+
+    IEnumerator TransitionStrategyAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        ChangeMode(Mode.transitionToStrategy);
+        //Debug.Log("CHANGE MODE TO TRANSITION STRATEGY");
     }
 
     IEnumerator ExecuteAfterTime(float time)
@@ -66,7 +79,7 @@ public class gameModeManager : MonoBehaviour
 
         // Code to execute after the delay
         ChangeMode(Mode.strategy);
-        Debug.Log("CHANGE MODE BACK TO STRAT");
+        //Debug.Log("CHANGE MODE TO STRATEGY");
     }
 
     IEnumerator ThirdPersonAfterTime(float time)
@@ -75,6 +88,6 @@ public class gameModeManager : MonoBehaviour
 
         // Code to execute after the delay
         ChangeMode(Mode.thirdperson);
-        Debug.Log("CHANGE MODE TO THIRD PERSON");
+        //Debug.Log("CHANGE MODE TO THIRD PERSON");
     }
 }

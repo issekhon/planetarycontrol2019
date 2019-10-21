@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
     private gameModeManager modeManager;
 
+    private moveUnit myMoveUnit;
+
     public float walkSpeed = 2;
     public float runSpeed = 6;
     public float gravity = -12;
@@ -28,10 +30,12 @@ public class PlayerController : MonoBehaviour {
 	//health bar and action bar
 	public Image healthBarImg;
 	public Image ActionBarImg;
+    public float healthBarHeight = 2.93f;
+    public float actionBarHeight = 1.96f;
 	public float fullHealth = 100;
 	public int fullActionPoints = 2;
-	int currentActionPoints;
-	float currentHealth;
+	public int currentActionPoints;
+	public float currentHealth;
 	public GameObject healthBarPrefab;
 	public GameObject actionPointsBarPrefab;
 
@@ -42,16 +46,16 @@ public class PlayerController : MonoBehaviour {
         //cameraT = Camera.main.transform;
         controller = GetComponent<CharacterController>();
         velocity = Vector3.zero;
+        myMoveUnit = GetComponent<moveUnit>();
 
 
 
 
-		//intialize and fill health bar
-		//ToDo:Here should find a current game object[this]
-		Transform character = GameObject.Find("testSoldier").transform;
-		Instantiate(healthBarPrefab, new Vector3(6.50f, 2.40f, -1.11f), Quaternion.Euler(-45, 45, 0), character);
-		Instantiate(actionPointsBarPrefab, new Vector3(6.53f, 2.16f, -1.11f), Quaternion.Euler(-45, 45, 0), character);
-
+        //intialize and fill health bar
+        //ToDo:Here should find a current game object[this]
+        Transform character = transform.gameObject.transform;
+		Instantiate(healthBarPrefab, this.transform.position + new Vector3(0, healthBarHeight, 0), Quaternion.Euler(-45, 45, 0), character);
+		Instantiate(actionPointsBarPrefab, this.transform.position + new Vector3(0, actionBarHeight, 0), Quaternion.Euler(-45, 45, 0), character);
 		currentHealth = fullHealth;
 		currentActionPoints = fullActionPoints;
 
@@ -77,7 +81,7 @@ public class PlayerController : MonoBehaviour {
                 return;
             }
 
-            if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+            if (modeManager.currentMode == gameModeManager.Mode.thirdperson && myMoveUnit.selected)
             {
                 Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
                 Vector2 inputDir = input.normalized;
