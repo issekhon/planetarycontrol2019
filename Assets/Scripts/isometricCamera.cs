@@ -86,23 +86,27 @@ public class isometricCamera : MonoBehaviour
         if (Input.mousePosition.x > screenWidth - horizontalBound)
         {
             isCamMoving = true;
-            cameraTarget.transform.Translate(cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
+//            cameraTarget.transform.Translate(cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
+            transform.Translate(cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
         }
         else if (Input.mousePosition.x < horizontalBound)
         {
             isCamMoving = true;
-            cameraTarget.transform.Translate(-cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
+//            cameraTarget.transform.Translate(-cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
+            transform.Translate(-cameraTarget.transform.right * speed * Time.deltaTime, Space.World);
         }
 
         else if (Input.mousePosition.y > screenHeight - verticalBound)
         {
             isCamMoving = true;
-            cameraTarget.transform.Translate(cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
+//            cameraTarget.transform.Translate(cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
+            transform.Translate(cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
         }
         else if (Input.mousePosition.y < verticalBound)
         {
             isCamMoving = true;
-            cameraTarget.transform.Translate(-cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
+//            cameraTarget.transform.Translate(-cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
+            transform.Translate(-cameraTarget.transform.forward * speed * Time.deltaTime, Space.World);
         }
         else
         {

@@ -7,11 +7,15 @@ public class PlayerController : MonoBehaviour {
     private gameModeManager modeManager;
 
     private moveUnit myMoveUnit;
-
-    public float walkSpeed = 2;
+    
+    public string unit_type;
+    public float walkSpeed;
     public float runSpeed = 6;
     public float gravity = -12;
-    public float jumpHeight = 1;
+    public float attackPower;
+    public float armor;
+    public float jumpHeight;
+    public float vision;
 
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
@@ -32,7 +36,7 @@ public class PlayerController : MonoBehaviour {
 	public Image ActionBarImg;
     public float healthBarHeight = 2.93f;
     public float actionBarHeight = 1.96f;
-	public float fullHealth = 100;
+	public float fullHealth;
 	public int fullActionPoints = 2;
 	public int currentActionPoints;
 	public float currentHealth;
@@ -48,9 +52,8 @@ public class PlayerController : MonoBehaviour {
         velocity = Vector3.zero;
         myMoveUnit = GetComponent<moveUnit>();
 
-
-
-
+        initStatus();
+        
         //intialize and fill health bar
         //ToDo:Here should find a current game object[this]
         Transform character = transform.gameObject.transform;
@@ -72,7 +75,7 @@ public class PlayerController : MonoBehaviour {
         if(currentHealth > 0)
 		{
 			currentHealth -= Time.deltaTime;
-			healthBarImg.fillAmount = currentHealth / fullHealth;
+			//healthBarImg.fillAmount = currentHealth / fullHealth;
 		}
 		
 
@@ -156,6 +159,17 @@ public class PlayerController : MonoBehaviour {
         //}
     }
 
+    public Dictionary<string,float> initStatus(){
+        UnitsAttributes unit_attribute = new UnitsAttributes();
+        Dictionary<string,float> attributes = unit_attribute.initialize(unit_type);
+        jumpHeight = attributes["jumpHeight"];
+        fullHealth = attributes["fullHealth"];
+        attackPower = attributes["attackPower"];
+        armor   = attributes["armor"];
+        walkSpeed = attributes["speed"];
+        vision = attributes["vision"];
+        return attributes;
+    }
     void Jump()
     {
         if (controller.isGrounded)
