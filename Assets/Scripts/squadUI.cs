@@ -20,9 +20,9 @@ public class squadUI : MonoBehaviour
 	void Start()
     {
 		//text change
-		toggle_text = transform.FindChild("toggleButton").FindChild("Text").GetComponent<Text>();
+		toggle_text = transform.Find("toggleButton").Find("Text").GetComponent<Text>();
 
-		squad_ui = transform.FindChild("squadUI").FindChild("Panel").GetComponent<RectTransform>();
+		squad_ui = transform.Find("squadUI").Find("Panel").GetComponent<RectTransform>();
 		ui_panel = GameObject.Find("Panel");
 		ui_panel.SetActive(false);
 

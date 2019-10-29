@@ -25,21 +25,10 @@ public class ThirdPersonCamera : MonoBehaviour {
     private void Awake()
     {
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
-    }
-
-    private void Update()
-    {
-        if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
+        if (lockCursor)
         {
-            if (lockCursor && Cursor.lockState != CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            } 
-        } else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
