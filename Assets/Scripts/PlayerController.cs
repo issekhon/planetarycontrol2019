@@ -14,10 +14,7 @@ public class PlayerController : MonoBehaviour {
     public float walkSpeed = 2;
     public float runSpeed = 6;
     public float gravity = -12;
-    public float attackPower;
-    public float armor;
-    public float jumpHeight;
-    public float vision;
+    public float jumpHeight = 1;
 
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
@@ -174,17 +171,6 @@ public class PlayerController : MonoBehaviour {
         //}
     }
 
-    public Dictionary<string,float> initStatus(){
-        UnitsAttributes unit_attribute = new UnitsAttributes();
-        Dictionary<string,float> attributes = unit_attribute.initialize(unit_type);
-        jumpHeight = attributes["jumpHeight"];
-        fullHealth = attributes["fullHealth"];
-        attackPower = attributes["attackPower"];
-        armor   = attributes["armor"];
-        walkSpeed = attributes["speed"];
-        vision = attributes["vision"];
-        return attributes;
-    }
     void Jump()
     {
         if (controller.isGrounded)
