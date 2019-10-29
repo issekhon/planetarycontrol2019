@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class gameModeManager : MonoBehaviour
 {
     public int turn;
     public int battleCountdown;
     public float transitionDuration = 5f;
-    public float fightDuration = 2f;
+    public float defaultFightDuration = 20f;
+    public float fightDuration = 20f;
+    public float currentTime;
+    public Text timerUI;
+    public Button turnEndButton;
+    [SerializeField] public GameObject playerManager;
+    [SerializeField] public GameObject enemyManager;
     [HideInInspector] public enum Mode { strategy, thirdperson, transitionToThirdPerson, transitionToStrategy}
     public int modeNum;
     public Mode currentMode = Mode.strategy;
-    // Possible options 
-    // 0 strategy
-    // 1 thirdperson
-    // transitionToThirdPerson
-    // transitionToStrategy
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,8 @@ public class gameModeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        UpdateTimerUI();
+        UpdateEndTurnButton();
     }
 
     public void EndTurn()
@@ -40,6 +43,13 @@ public class gameModeManager : MonoBehaviour
         {
             turn = 0;
         }
+        ResetTurnvariables();
+    }
+
+    public void ResetTurnvariables()
+    {
+        enemyManager.GetComponent<EnemyControllerAI>().ResetMe();
+        playerManager.GetComponent<PlayerManager>().ResetMe();
     }
 
     public void ChangeMode(Mode newMode)
@@ -52,8 +62,9 @@ public class gameModeManager : MonoBehaviour
         }
         else if (currentMode == Mode.thirdperson)
         {
+            currentTime = fightDuration;
             modeNum = 1;
-            StartCoroutine(TransitionStrategyAfterTime(fightDuration));
+            //StartCoroutine(TransitionStrategyAfterTime(fightDuration));
         }
         else if (currentMode == Mode.transitionToThirdPerson)
         {
@@ -63,6 +74,52 @@ public class gameModeManager : MonoBehaviour
         }
 
     }
+
+    public void UpdateTimerUI()
+    {
+        // Update timer UI
+        if (currentMode == Mode.thirdperson)
+        {
+            if (currentTime > 0)
+            {
+                currentTime -= 1 * Time.deltaTime;
+                timerUI.text = "Fight Time: " + currentTime.ToString("F2");
+            }
+            else
+            {
+                ChangeMode(Mode.transitionToStrategy);
+            }
+        }
+        else
+        {
+            timerUI.text = "";
+        }
+    }
+
+    public void UpdateEndTurnButton()
+    {
+        if (turn == 0)
+        {
+            if (currentMode != Mode.strategy)
+            {
+                turnEndButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                turnEndButton.gameObject.SetActive(true);
+            }
+        }
+    }
+
+
+
+
+
+
+
+    // NOT CURRENTLY IN USE
+
+
 
     IEnumerator TransitionStrategyAfterTime(float time)
     {

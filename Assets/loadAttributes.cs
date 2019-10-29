@@ -21,12 +21,12 @@ public class loadAttributes : MonoBehaviour
     void Start()
     {
         //find all texts
-        attackPower = transform.Find("lineAttack").Find("Text1").GetComponent<Text>();
-        defense = transform.Find("lineDefense").Find("Text1").GetComponent<Text>();
-        speed = transform.Find("lineSpeed").Find("Text1").GetComponent<Text>();
-        jump = transform.Find("lineJump").Find("Text1").GetComponent<Text>();
-        health = transform.Find("lineHealth").Find("Text1").GetComponent<Text>();
-        vision = transform.Find("lineVision").Find("Text1").GetComponent<Text>();
+        attackPower = transform.FindChild("lineAttack").FindChild("Text1").GetComponent<Text>();
+        defense = transform.FindChild("lineDefense").FindChild("Text1").GetComponent<Text>();
+        speed = transform.FindChild("lineSpeed").FindChild("Text1").GetComponent<Text>();
+        jump = transform.FindChild("lineJump").FindChild("Text1").GetComponent<Text>();
+        health = transform.FindChild("lineHealth").FindChild("Text1").GetComponent<Text>();
+        vision = transform.FindChild("lineVision").FindChild("Text1").GetComponent<Text>();
         
         //find all units object
 		units = GameObject.FindGameObjectsWithTag("Player");
