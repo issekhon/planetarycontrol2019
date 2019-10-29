@@ -4104,15 +4104,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRef: {fileID: 0}
   hand: {fileID: 0}
-  gunDamage: 10
-  fireRate: 0.5
+  gunDamage: 1
+  fireRate: 0.25
   weaponRange: 50
   hitForce: 100
   gunEnd: {fileID: 8326295669190955447}
   tpCam: {fileID: 0}
-  projectile: {fileID: 842047377288334501, guid: bcf4c84155b472e469fd7e63ae325ec3,
-    type: 3}
-  crosshair: {fileID: 0}
 --- !u!82 &1584114549205589954
 AudioSource:
   m_ObjectHideFlags: 0
