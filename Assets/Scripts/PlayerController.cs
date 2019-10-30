@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour {
     private EnemyControllerAI myControllerAI;
 
     private moveUnit myMoveUnit;
+    
+    //update attributes
+    public string unit_type;
+    Dictionary<string,float> attributes;
+    public bool if_attribute_update = false;
 
     [Header("Third Person Movement Variables")]
     public float walkSpeed = 2;
@@ -35,7 +40,14 @@ public class PlayerController : MonoBehaviour {
     [Header("UI Variables")]
     public float healthBarHeight = 2.93f;
     public float actionBarHeight = 1.96f;
-	public float fullHealth = 100;
+    
+    public float attackPower;
+    public float armor;
+    public float jump_iso;
+    public float speed_iso;
+    public float vision;
+    public float fullHealth;
+    
     public float currentHealth;
     public float fullActionPoints = 20;
     public float previewActionPoints;
@@ -56,6 +68,8 @@ public class PlayerController : MonoBehaviour {
         controller = GetComponent<CharacterController>();
         velocity = Vector3.zero;
         myMoveUnit = GetComponent<moveUnit>();
+        
+        attributes = initStatus();
         
         //intialize and fill health bar
         //ToDo:Here should find a current game object[this]
@@ -192,4 +206,62 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
+    
+    public Dictionary<string,float> initStatus(){
+        UnitAttributesList unit_attribute = new UnitAttributesList();
+        Dictionary<string,float> attributes = unit_attribute.initialize(unit_type);
+    
+        attackPower = attributes["attackPower"];
+        armor   = attributes["armor"];
+        speed_iso = attributes["speed"];
+        jump_iso = attributes["jumpHeight"];
+        fullHealth = attributes["fullHealth"];
+        vision = attributes["vision"];
+        return attributes;
+    }
+    
+    public void updateStatus(string attribute_type){
+        if(attributes.ContainsKey(attribute_type)){
+            if_attribute_update = true;
+            
+            switch(attribute_type)
+            {
+                case "attackPower":
+                    attackPower+=1.5f;
+                    attributes["attackPower"]+=1.5f;
+                    break;
+                case "armor":
+                    armor+=1f;
+                    attributes["armor"]+=1f;
+                    break;
+                case "speed":
+                    speed_iso+=1f;
+                    attributes["speed"]+=1f;
+                    break;
+                case "jumpHeight":
+                    attributes["jumpHeight"]+=1f;
+                    jump_iso+=1f;
+                    break;
+                case "fullHealth":
+                    fullHealth+=5f;
+                    attributes["fullHealth"]+=5f;
+                    break;
+                case "vision":
+                    vision+=1f;
+                    attributes["vision"]+=1f;
+                    break;
+            }
+            
+        }
+        if_attribute_update = true;
+    }
+    
+    public bool check_if_need_update(){
+        return if_attribute_update;
+    }
+    
+    public Dictionary<string,float> getAttributesDic(){
+        return attributes;
+    }
+    
 }
