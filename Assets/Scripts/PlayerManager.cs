@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> myUnits;
+    public Text currencyText;
+    public float currency = 0f;
+    public float currencyPerTurn = 100f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currencyText.text = "" + currency;
     }
 
     public void ResetMe()
@@ -26,5 +30,10 @@ public class PlayerManager : MonoBehaviour
         {
             child.GetComponent<UnitRoundReset>().ResetMe();
         }
+    }
+
+    public void AddCurrency()
+    {
+        currency += currencyPerTurn;
     }
 }

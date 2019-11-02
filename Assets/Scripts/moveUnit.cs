@@ -217,6 +217,7 @@ public class moveUnit : MonoBehaviour
                         selected = false;
                         myOutline.OutlineWidth = 0f;
                         myOutline.OutlineColor = outlineHoverColor;
+                        myPointer.transform.position = new Vector3(0, -20, 0);
                         myContrl.previewActionPoints = myContrl.currentActionPoints;
                     }
                 }
@@ -227,6 +228,9 @@ public class moveUnit : MonoBehaviour
                         if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
                         {
                             _navMeshAgent.isStopped = true;
+                            selected = false;
+                            myOutline.OutlineColor = outlineHoverColor;
+                            myOutline.OutlineWidth = 0f;
                         }
                     }
                 }

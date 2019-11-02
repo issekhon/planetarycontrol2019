@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/navMeshTest.unity
-    guid: a5bbbf499457cf8428577b8a3941422f
+    path: Assets/Scenes/TutorialScene.unity
+    guid: 6bcd227dc89d900478ac8022a6cc70fc
+  - enabled: 1
+    path: Assets/Scenes/WorldMapTest.unity
+    guid: 4c207c36196ba234cb3c6e6ee1e76264
   m_configObjects: {}

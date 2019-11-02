@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour {
     public float gravity = -12;
     public float jumpHeight = 1;
 
+    [Header("Boostable Variables")]
+    public float boostScale = 1.2f;
+    public List<boostableStats> boostedStats;
+    public enum boostableStats { boostedWalkSpeed, boostedRunSpeed, boostedJumpHeight, boostedActionPoints, boostedhealth, boostedDamage }
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
 
@@ -178,6 +182,44 @@ public class PlayerController : MonoBehaviour {
             float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);
             velocityY = jumpVelocity;
         }
+    }
+
+    public void BoostStatsFixed()
+    {
+        //boostedWalkSpeed, boostedRunSpeed, boostedJumpHeight, boostedActionPoints, boostedhealth, boostedDamage;
+        walkSpeed *= boostScale;
+        boostedStats.Add(boostableStats.boostedWalkSpeed);
+        runSpeed *= boostScale;
+        boostedStats.Add(boostableStats.boostedRunSpeed);
+        jumpHeight *= boostScale;
+        boostedStats.Add(boostableStats.boostedJumpHeight);
+        fullActionPoints *= boostScale;
+        currentActionPoints *= boostScale;
+        boostedStats.Add(boostableStats.boostedActionPoints);
+        fullHealth *= boostScale;
+        currentHealth *= boostScale;
+        boostedStats.Add(boostableStats.boostedhealth);
+        myMoveUnit.myGun.GetComponent<PlayerShoot>().gunDamage *= 2;
+        boostedStats.Add(boostableStats.boostedDamage);
+    }
+
+    public void DebuffStats()
+    {
+        //boostedWalkSpeed, boostedRunSpeed, boostedJumpHeight, boostedActionPoints, boostedhealth, boostedDamage;
+        walkSpeed /= boostScale;
+        boostedStats.Remove(boostableStats.boostedWalkSpeed);
+        runSpeed /= boostScale;
+        boostedStats.Remove(boostableStats.boostedRunSpeed);
+        jumpHeight /= boostScale;
+        boostedStats.Remove(boostableStats.boostedJumpHeight);
+        fullActionPoints /= boostScale;
+        currentActionPoints /= boostScale;
+        boostedStats.Remove(boostableStats.boostedActionPoints);
+        fullHealth /= boostScale;
+        currentHealth /= boostScale;
+        boostedStats.Remove(boostableStats.boostedhealth);
+        myMoveUnit.myGun.GetComponent<PlayerShoot>().gunDamage /= 2;
+        boostedStats.Remove(boostableStats.boostedDamage);
     }
 
     public void TakeDamage(float damageAmount)

@@ -87,6 +87,7 @@ public class PlayerShoot : MonoBehaviour {
     {
         if (Time.time > nextFire)
         {
+            StartCoroutine(ShotEffect());
             gunEnd.LookAt(targetLoc);
             GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
             tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
@@ -98,9 +99,9 @@ public class PlayerShoot : MonoBehaviour {
     {
         gunAudio.Play();
 
-        laserLine.enabled = true;
+        //laserLine.enabled = true;
         yield return shotDuration;
-        laserLine.enabled = false;
+        //laserLine.enabled = false;
 
     }
 }

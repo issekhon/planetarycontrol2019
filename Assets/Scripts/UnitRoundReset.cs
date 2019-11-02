@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitRoundReset : MonoBehaviour
 {
@@ -28,5 +29,9 @@ public class UnitRoundReset : MonoBehaviour
         myPlayerController.previewActionPoints = myPlayerController.currentActionPoints;
         myMoveUnit.attackedThisTurn = false;
         myMoveUnit.selected = false;
+        myMoveUnit.myOutline.OutlineWidth = 0f;
+        myMoveUnit.myOutline.OutlineColor = myMoveUnit.outlineHoverColor;
+        myMoveUnit.GetComponent<NavMeshAgent>().ResetPath();
+        myMoveUnit.myPointer.transform.position = new Vector3(0, -20, 0);
     }
 }
