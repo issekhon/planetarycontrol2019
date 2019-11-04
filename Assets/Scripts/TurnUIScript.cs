@@ -9,18 +9,32 @@ public class TurnUIScript : MonoBehaviour
     private Text buttonText;
     public string endTurntext = "End Turn";
     public string otherPlayerTurnText = "Enemy Turn";
+    
+    private bool if_enemey_played = false;
+    private int gameTurns = 1;
+    private Text currencyText;
+    private Text turnCounterText;
+    
     // Start is called before the first frame update
     void Start()
     {
         modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
         buttonText = transform.Find("Text").GetComponent<Text>();
+        turnCounterText = transform.Find("TurnCounter").GetComponent<Text>();
+        turnCounterText.text = "Turn: " + gameTurns;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (modeManager.turn == 0)
-        {
+        {   
+            if(if_enemey_played){
+                gameTurns += 1;
+                if_enemey_played = false;
+            }
+
             if (modeManager.currentMode == gameModeManager.Mode.strategy)
             {
                 if (this.GetComponent<Button>().interactable == false)
@@ -33,6 +47,7 @@ public class TurnUIScript : MonoBehaviour
         else if (modeManager.turn == 1)
         {
             if (!buttonText.text.Equals(otherPlayerTurnText)) buttonText.text = otherPlayerTurnText;
+            if_enemey_played = true;
         }
     }
 
@@ -44,4 +59,6 @@ public class TurnUIScript : MonoBehaviour
             this.GetComponent<Button>().interactable = false;
         }
     }
+    
+
 }

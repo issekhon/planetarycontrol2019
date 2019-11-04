@@ -37,12 +37,12 @@ public class gameModeManager : MonoBehaviour
     {
         if (turn == 0)
         {
-            playerManager.GetComponent<PlayerManager>().AddCurrency();
             turn = 1;
         } 
         else
         {
             turn = 0;
+            playerManager.GetComponent<PlayerManager>().AddCurrency();
         }
         ResetTurnvariables();
     }

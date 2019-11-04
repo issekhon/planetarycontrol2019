@@ -36,4 +36,12 @@ public class PlayerManager : MonoBehaviour
     {
         currency += currencyPerTurn;
     }
+    
+    public float getCurrency(){
+        return currency;
+    }
+    
+    public void updateCurrency(float cost){
+        currency -= cost;
+    }
 }
