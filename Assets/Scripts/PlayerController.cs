@@ -14,12 +14,15 @@ public class PlayerController : MonoBehaviour {
     public string unit_type;
     Dictionary<string,float> attributes;
     public bool if_attribute_update = false;
-    
+
     [Header("Third Person Movement Variables")]
+    public bool grounded = false;
     public float walkSpeed = 2;
     public float runSpeed = 6;
     public float gravity = -12;
     public float jumpHeight = 1;
+
+    public bool jumping = false;
 
     [Header("Boostable Variables")]
     public float boostScale = 1.2f;
@@ -177,14 +180,30 @@ public class PlayerController : MonoBehaviour {
 
             currentSpeed = new Vector2(controller.velocity.x, controller.velocity.z).magnitude;
 
+            grounded = controller.isGrounded;
+
+            if (jumping)
+            {
+                if (controller.isGrounded)
+                {
+                    jumping = false;
+                    ResetTriggers();
+                    animator.SetTrigger("landed");
+                    Debug.Log(this.gameObject.name + "setting anim to grounded");
+                }
+            }
+
             if (controller.isGrounded)
             {
                 velocityY = 0;
+                float animationSpeedPercent = ((running) ? currentSpeed / runSpeed : currentSpeed / walkSpeed * .5f);
+                animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
+                if (inputDir.y > 0) { ResetTriggers(); animator.SetTrigger("landed"); }
+                else if (inputDir.y < 0) { ResetTriggers(); animator.SetTrigger("Backward"); }
+                else if (inputDir.x > 0) { ResetTriggers(); animator.SetTrigger("StrafeRight"); }
+                else if (inputDir.x < 0) { ResetTriggers(); animator.SetTrigger("StrafeLeft"); }
+                else if (velocity.magnitude < 0.01) { ResetTriggers(); animator.SetTrigger("landed"); }
             }
-
-            float animationSpeedPercent = ((running) ? currentSpeed / runSpeed : currentSpeed / walkSpeed * .5f);
-            animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
-
         }
         //}
     }
@@ -193,9 +212,22 @@ public class PlayerController : MonoBehaviour {
     {
         if (controller.isGrounded)
         {
+            jumping = true;
+            Debug.Log(this.gameObject.name + "setting anim to jump");
             float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);
             velocityY = jumpVelocity;
+            ResetTriggers();
+            animator.SetTrigger("jumpTrigger");
         }
+    }
+
+    private void ResetTriggers()
+    {
+        animator.ResetTrigger("jumpTrigger");
+        animator.ResetTrigger("landed");
+        animator.ResetTrigger("StrafeLeft");
+        animator.ResetTrigger("StrafeRight");
+        animator.ResetTrigger("Backward");
     }
 
     public void BoostStatsFixed()

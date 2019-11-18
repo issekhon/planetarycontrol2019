@@ -18,7 +18,29 @@ public class laserBulletScript : MonoBehaviour
         transform.Translate(Vector3.forward * 20 *Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Enemy")
+    //    {
+    //        Debug.Log(transform.name + ": ENEMY HIT!");
+    //        // do some damage
+    //        collision.gameObject.GetComponent<enemySoldierAI>().TakeDamage(damage);
+    //        Destroy(this.gameObject);
+    //    }
+    //    else if (collision.gameObject.tag == "Player")
+    //    {
+    //        Debug.Log(transform.name + ": PLAYER HIT!");
+    //        collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+    //        Destroy(this.gameObject);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(transform.name + ": WALL HIT");
+    //        Destroy(this.gameObject);
+    //    }
+    //}
+
+    public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
         {
@@ -26,10 +48,16 @@ public class laserBulletScript : MonoBehaviour
             // do some damage
             other.GetComponent<enemySoldierAI>().TakeDamage(damage);
             Destroy(this.gameObject);
-        } else if (other.tag == "Player")
+        }
+        else if (other.tag == "Player")
         {
             Debug.Log(transform.name + ": PLAYER HIT!");
             other.GetComponent<PlayerController>().TakeDamage(damage);
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Debug.Log(transform.name + ": WALL HIT");
             Destroy(this.gameObject);
         }
     }
