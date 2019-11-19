@@ -55,6 +55,10 @@ public class laserBulletScript : MonoBehaviour
             other.GetComponent<PlayerController>().TakeDamage(damage);
             Destroy(this.gameObject);
         }
+        else if (other.tag == "Projectile")
+        {
+            Debug.Log(transform.name + ": ignoring projectile");
+        }
         else
         {
             Debug.Log(transform.name + ": WALL HIT");

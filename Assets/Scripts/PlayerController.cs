@@ -115,6 +115,12 @@ public class PlayerController : MonoBehaviour {
             //myHealthBar.transform.LookAt(cameraThirdPerson);
         }
 
+        if (modeManager.currentMode != gameModeManager.Mode.thirdperson)
+        {
+            ResetTriggers();
+            animator.SetTrigger("landed");
+        }
+
         if (modeManager.currentMode == gameModeManager.Mode.thirdperson && myMoveUnit.selected)
         {
             
