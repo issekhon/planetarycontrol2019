@@ -74,7 +74,7 @@ MonoBehaviour:
     value: 65472
   diffusion:
     overrideState: 1
-    value: 7
+    value: 6.58
   anamorphicRatio:
     overrideState: 0
     value: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
     value: 0
   contrast:
     overrideState: 1
-    value: 3
+    value: 2
   mixerRedOutRedIn:
     overrideState: 0
     value: 100

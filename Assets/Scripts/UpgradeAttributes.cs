@@ -20,7 +20,7 @@ public class UpgradeAttributes : MonoBehaviour
 		units = GameObject.FindGameObjectsWithTag("Player");
         unit = units[unit_num-1];
         
-        btn = transform.FindChild("Button").GetComponent<Button>();
+        btn = transform.Find("Button").GetComponent<Button>();
         playerUnits = GameObject.Find("PlayerUnits");
 //        Debug.Log( playerUnits.GetComponent<PlayerManager>().getCurrency());
     }
