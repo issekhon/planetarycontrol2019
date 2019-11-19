@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour {
     public void TakeDamage(float damageAmount)
     {
         if (currentHealth > 0) { 
-            currentHealth -= damageAmount;
+            currentHealth -= (float)System.Math.Round((100-attributes["armor"])/100*damageAmount,2);
             Mathf.Clamp(currentHealth, 0, fullHealth);
             if (currentHealth <= 0)
             {
@@ -258,7 +258,6 @@ public class PlayerController : MonoBehaviour {
         speed_iso = attributes["speed"];
         jump_iso = attributes["jumpHeight"];
         fullHealth = attributes["fullHealth"];
-        vision = attributes["vision"];
         return attributes;
     }
     
@@ -283,14 +282,11 @@ public class PlayerController : MonoBehaviour {
                 case "jumpHeight":
                     attributes["jumpHeight"]+=1f;
                     jump_iso+=1f;
+                    jumpHeight = attributes["jumpHeight"];
                     break;
                 case "fullHealth":
                     fullHealth+=5f;
                     attributes["fullHealth"]+=5f;
-                    break;
-                case "vision":
-                    vision+=1f;
-                    attributes["vision"]+=1f;
                     break;
             }
             
@@ -306,4 +302,25 @@ public class PlayerController : MonoBehaviour {
         return attributes;
     }
     
+    public string get_unit_type(){
+        return unit_type;
+    }
+    
+    public float get_current_health(){
+        return currentHealth;
+    }
+    
+    public void set_current_health(float val){
+        currentHealth += val;
+    }
+    
+    public float get_action_points(){
+        return currentActionPoints;
+    }
+    
+    public float get_move_speed(){
+        return speed_iso;
+    }
+    
+
 }
