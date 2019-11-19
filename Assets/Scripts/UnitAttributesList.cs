@@ -12,17 +12,17 @@ public class UnitAttributesList
             case "soldier":
                 attributes.Add("attackPower" , 5f);
                 attributes.Add("armor" , 3.5f);
-                attributes.Add("speed" , 3f);
-                attributes.Add("jumpHeight" , 1f);
+                attributes.Add("speed" , 5f);
+                attributes.Add("jumpHeight" , 2f);
                 attributes.Add("fullHealth" , 100f);
                 attributes.Add("vision" , 5f);
                 return attributes;
                 break;
-            case "medic":
+            case "doctor":
                 attributes.Add("attackPower" , 3.5f);
                 attributes.Add("armor" , 4f);
-                attributes.Add("speed" , 3f);
-                attributes.Add("jumpHeight" , 1f);
+                attributes.Add("speed" , 5f);
+                attributes.Add("jumpHeight" , 2f);
                 attributes.Add("fullHealth" , 80f);
                 attributes.Add("vision" , 5f);
                 return attributes;
@@ -39,8 +39,8 @@ public class UnitAttributesList
             case "sniper":
                 attributes.Add("attackPower" , 15f);
                 attributes.Add("armor" , 1.5f);
-                attributes.Add("speed" , 2f);
-                attributes.Add("jumpHeight" , 1f);
+                attributes.Add("speed" , 3f);
+                attributes.Add("jumpHeight" , 3f);
                 attributes.Add("fullHealth" , 50f);
                 attributes.Add("vision" , 15f);
                 return attributes;

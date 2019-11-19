@@ -37,11 +37,6 @@ public class moveUnit : MonoBehaviour
     public float outlineWidth = 0f;
     public Color outlineHoverColor = Color.white;
     public Color outlineSelectedColor = Color.blue;
-    
-    public int unit_num;
-	GameObject[] units;
-	GameObject unit;
-    float moveSpeed;
 
     [SerializeField] Transform _destination;
 
@@ -73,10 +68,6 @@ public class moveUnit : MonoBehaviour
         myOutline.OutlineMode = Outline.Mode.OutlineAll;
         myOutline.OutlineColor = Color.white;
         myOutline.OutlineWidth = 0f;
-        
-        units = GameObject.FindGameObjectsWithTag("Player");
-		unit = units[unit_num - 1];
-        moveSpeed = unit.GetComponent<PlayerController>().get_move_speed();
     }
 
     // Not currently used
@@ -95,10 +86,6 @@ public class moveUnit : MonoBehaviour
         //if (hasAuthority)
         //{
         // Set camera after it's been spawned
-        if(unit.GetComponent<PlayerController>().get_move_speed() != moveSpeed){
-            moveSpeed = unit.GetComponent<PlayerController>().get_move_speed();
-        }
-        
         if (camParent == null) return;
         if (cam == null)
         {
@@ -217,7 +204,7 @@ public class moveUnit : MonoBehaviour
                             if (NavMesh.SamplePosition(hit.point, out closestPoint, 1.0f, NavMesh.AllAreas))
                             {
                                 _navMeshAgent.SetDestination(closestPoint.position);
-                                if (myNavLine.pathLength/(0.5*moveSpeed) < myContrl.currentActionPoints)
+                                if (myNavLine.pathLength < myContrl.currentActionPoints)
                                 {
                                     _navMeshAgent.isStopped = false;
                                     myContrl.currentActionPoints = myContrl.previewActionPoints;
@@ -331,7 +318,7 @@ public class moveUnit : MonoBehaviour
                         //Debug.Log("navmeshhit");
                         _navMeshAgent.SetDestination(closestPoint.position);
                         // If the path length is not within my move distance, visually show that
-                        if (myNavLine.pathLength/(0.5*moveSpeed) > myContrl.currentActionPoints)
+                        if (myNavLine.pathLength > myContrl.currentActionPoints)
                         {
                             pointer.GetComponent<Renderer>().material = grayedPointerMat;
                             myLineR.material = lineDeactive;
@@ -342,7 +329,7 @@ public class moveUnit : MonoBehaviour
                         {
                             pointer.GetComponent<Renderer>().material = defaultPointerMat;
                             myLineR.material = lineActive;
-                            myContrl.previewActionPoints = (float)(myContrl.currentActionPoints - myNavLine.pathLength/(0.5*(moveSpeed)));
+                            myContrl.previewActionPoints = myContrl.currentActionPoints - myNavLine.pathLength;
                         }
 
                         myPointer.transform.position = closestPoint.position;
