@@ -62,7 +62,7 @@ public class isometricCamera : MonoBehaviour
     {
         if (modeManager.currentMode == gameModeManager.Mode.transitionToThirdPerson)
         {
-            if (targetTransitionPoint != selectedPlayer.transform.Find("transitionTarget").transform) targetTransitionPoint = selectedPlayer.transform.Find("transitionTarget").transform;
+            if (targetTransitionPoint != selectedPlayer.transform.Find("ybotTarget").transform) targetTransitionPoint = selectedPlayer.transform.Find("ybotTarget").transform;
             //Lerp position
             transform.position = Vector3.Lerp(transform.position, targetTransitionPoint.position, Time.deltaTime * camSpeed);
 

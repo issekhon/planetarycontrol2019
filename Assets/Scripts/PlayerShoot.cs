@@ -8,21 +8,17 @@ public class PlayerShoot : MonoBehaviour {
 
     public GameObject playerRef;
     [SerializeField] Transform hand;
-    private PlayerController myUnitsController;
 
     [Header("Weapon Stats")]
     public int gunDamage = 1;
     public float fireRate = .25f;
     public float weaponRange = 50f;
     public float hitForce = 100f;
-    public int shotgunPellets = 4;
-    public int shotgunSpread = 5;
 
     public Transform gunEnd;
     public Camera tpCam;
     public GameObject projectile;
     public GameObject crosshair;
-    
 
     private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
     private AudioSource gunAudio;
@@ -34,7 +30,6 @@ public class PlayerShoot : MonoBehaviour {
         laserLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
-        if (playerRef.tag == "Player") myUnitsController = playerRef.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -51,7 +46,6 @@ public class PlayerShoot : MonoBehaviour {
         {
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson && playerRef.GetComponent<moveUnit>().selected)
             {
-                Dictionary<string, float> unit_attributes = myUnitsController.getAttributesDic();
                 if (crosshair.activeSelf == false) crosshair.SetActive(true);
                 if (Input.GetButton("Fire1") && Time.time > nextFire)
                 {
@@ -76,21 +70,8 @@ public class PlayerShoot : MonoBehaviour {
                         gunEnd.LookAt(rayOrigin + tpCam.transform.forward * weaponRange);
                     }
 
-                    if (myUnitsController.unit_type == "soldier")
-                    {
-                        
-                        GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                        tempProjectile.GetComponent<laserBulletScript>().SetDamage(unit_attributes["attackPower"]);
-                    }
-                    else if (myUnitsController.unit_type == "tank")
-                    {
-                        for (int i = 0; i < shotgunPellets; i++)
-                        {
-                            GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                            tempProjectile.GetComponent<laserBulletScript>().SetDamage(unit_attributes["attackPower"]);
-                            tempProjectile.transform.Rotate(new Vector3(Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread)), Space.Self);
-                        }
-                    }
+                    GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
+                    tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
                 }
             }
         } 
@@ -108,20 +89,8 @@ public class PlayerShoot : MonoBehaviour {
         {
             StartCoroutine(ShotEffect());
             gunEnd.LookAt(targetLoc);
-            if (playerRef.GetComponent<enemySoldierAI>().unit_type == "soldier")
-            {
-                GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
-            }
-            else if (playerRef.GetComponent<enemySoldierAI>().unit_type == "tank")
-            {
-                for (int i = 0; i < shotgunPellets; i++)
-                {
-                    GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                    tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
-                    tempProjectile.transform.Rotate(new Vector3(Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread)), Space.Self);
-                }
-            }
+            GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
+            tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
             nextFire = Time.time + fireRate;
         }
     }

@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
         return currency;
     }
     
-    public void updateCurrency(float val){
-        currency += val;
+    public void updateCurrency(float cost){
+        currency -= cost;
     }
 }

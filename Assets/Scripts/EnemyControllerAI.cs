@@ -235,7 +235,6 @@ public class EnemyControllerAI : MonoBehaviour
     private void StateTpPlayerSearch()
     {
         if (currentEnemyRef == null) return;
-        playerVisible = false;
         if (modeManager.turn == 1)
         {
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson)
@@ -383,7 +382,7 @@ public class EnemyControllerAI : MonoBehaviour
             if (enemyUnits[i] == objToRemove)
             {
                 enemyUnits.RemoveAt(i);
-                if (enemyUnits.Count == 0) { modeManager.GameWon(); }
+                if (enemyUnits.Count == 0) { gameovertext.SetActive(true); gameovertext.GetComponent<Text>().text = "You Win!"; }
                 playerVisible = false;
                 modeManager.ChangeMode(gameModeManager.Mode.transitionToStrategy);
                 return;
@@ -395,7 +394,7 @@ public class EnemyControllerAI : MonoBehaviour
             if (playerUnits[i] == objToRemove)
             {
                 playerUnits.RemoveAt(i);
-                if (playerUnits.Count == 0) { modeManager.GameLost(); }
+                if (playerUnits.Count == 0) { gameovertext.SetActive(true); gameovertext.GetComponent<Text>().text = "Game Over"; }
                 playerVisible = false;
                 modeManager.ChangeMode(gameModeManager.Mode.transitionToStrategy);
                 return;

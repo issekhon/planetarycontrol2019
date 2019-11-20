@@ -9,7 +9,6 @@ TagManager:
   - EnemyBase
   - PlayerBase
   - EnemyController
-  - Projectile
   layers:
   - Default
   - TransparentFX

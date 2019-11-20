@@ -12,13 +12,13 @@ public class UnitAttributesList
             case "soldier":
                 attributes.Add("attackPower" , 5f);
                 attributes.Add("armor" , 3.5f);
-                attributes.Add("speed" , 3f);
+                attributes.Add("speed" , 5f);
                 attributes.Add("jumpHeight" , 2f);
                 attributes.Add("fullHealth" , 100f);
                 attributes.Add("vision" , 5f);
                 return attributes;
                 break;
-            case "medic":
+            case "doctor":
                 attributes.Add("attackPower" , 3.5f);
                 attributes.Add("armor" , 4f);
                 attributes.Add("speed" , 5f);
