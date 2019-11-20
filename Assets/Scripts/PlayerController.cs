@@ -276,8 +276,8 @@ public class PlayerController : MonoBehaviour {
 
     public void TakeDamage(float damageAmount)
     {
-        if (currentHealth > 0) { 
-            currentHealth -= damageAmount;
+        if (currentHealth > 0) {
+            currentHealth -= (float)System.Math.Round((100 - attributes["armor"]) / 100 * damageAmount, 2);
             Mathf.Clamp(currentHealth, 0, fullHealth);
             if (currentHealth <= 0)
             {
@@ -335,13 +335,40 @@ public class PlayerController : MonoBehaviour {
         }
         if_attribute_update = true;
     }
-    
-    public bool check_if_need_update(){
+
+    public bool check_if_need_update()
+    {
         return if_attribute_update;
     }
-    
-    public Dictionary<string,float> getAttributesDic(){
+
+    public Dictionary<string, float> getAttributesDic()
+    {
         return attributes;
     }
-    
+
+    public string get_unit_type()
+    {
+        return unit_type;
+    }
+
+    public float get_current_health()
+    {
+        return currentHealth;
+    }
+
+    public void set_current_health(float val)
+    {
+        currentHealth += val;
+    }
+
+    public float get_action_points()
+    {
+        return currentActionPoints;
+    }
+
+    public float get_move_speed()
+    {
+        return speed_iso;
+    }
+
 }

@@ -42,6 +42,6 @@ public class PlayerManager : MonoBehaviour
     }
     
     public void updateCurrency(float cost){
-        currency -= cost;
+        currency += cost;
     }
 }

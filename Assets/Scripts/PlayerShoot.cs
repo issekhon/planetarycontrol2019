@@ -11,7 +11,8 @@ public class PlayerShoot : MonoBehaviour {
     private PlayerController myUnitsController;
 
     [Header("Weapon Stats")]
-    public int gunDamage = 1;
+    public float gunDamage = 1;
+    public float powerConversionRate = 2f;
     public float fireRate = .25f;
     public float weaponRange = 50f;
     public float hitForce = 100f;
@@ -41,6 +42,7 @@ public class PlayerShoot : MonoBehaviour {
     {
         //if (hasAuthority)
         //{
+
         if (playerRef == null)
         {
             Debug.LogError(gameObject.name + ": PLAYER REF NULL");
@@ -48,6 +50,8 @@ public class PlayerShoot : MonoBehaviour {
 
         if (playerRef.tag == "Player")
         {
+            float attackPower = myUnitsController.attackPower;
+
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson && playerRef.GetComponent<moveUnit>().selected)
             {
                 if (crosshair.activeSelf == false) crosshair.SetActive(true);
@@ -77,14 +81,14 @@ public class PlayerShoot : MonoBehaviour {
                     if (myUnitsController.unit_type == "soldier")
                     {
                         GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                        tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
+                        tempProjectile.GetComponent<laserBulletScript>().SetDamage(attackPower);
                     }
                     else if (myUnitsController.unit_type == "tank")
                     {
                         for (int i = 0; i < shotgunPellets; i++)
                         {
                             GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                            tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
+                            tempProjectile.GetComponent<laserBulletScript>().SetDamage(attackPower);
                             tempProjectile.transform.Rotate(new Vector3(Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread), Random.Range(-shotgunSpread, shotgunSpread)), Space.Self);
                         }
                     }
@@ -109,6 +113,7 @@ public class PlayerShoot : MonoBehaviour {
             {
                 GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
                 tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
+                Debug.Log(gunDamage);
             }
             else if (playerRef.GetComponent<enemySoldierAI>().unit_type == "tank")
             {

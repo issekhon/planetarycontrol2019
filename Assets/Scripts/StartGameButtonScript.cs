@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class StartGameButtonScript : MonoBehaviour
 {
-    public void StartMenu()
+    public void StartTutorial()
     {
         SceneManager.LoadScene("TutorialScene");
     }
 
-    public void StartGame()
+    public void StartLevel1()
     {
         SceneManager.LoadScene("WorldMapTest");
     }
