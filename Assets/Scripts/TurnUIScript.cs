@@ -20,8 +20,8 @@ public class TurnUIScript : MonoBehaviour
     {
         modeManager = GameObject.FindWithTag("GameManager").GetComponent<gameModeManager>();
         buttonText = transform.Find("Text").GetComponent<Text>();
-        //turnCounterText = transform.Find("TurnCounter").GetComponent<Text>();
-        //turnCounterText.text = "Turn: " + gameTurns;
+        turnCounterText = transform.Find("TurnCounter").GetComponent<Text>();
+        turnCounterText.text = "Turn: " + gameTurns;
     }
 
     // Update is called once per frame
