@@ -10,7 +10,6 @@ public class UpgradeAttributes : MonoBehaviour
     Button btn;
     GameObject playerUnits;
     
-    
     GameObject[] units;
     GameObject unit;
     float currency;
@@ -28,7 +27,7 @@ public class UpgradeAttributes : MonoBehaviour
     void Update(){
         currency = playerUnits.GetComponent<PlayerManager>().getCurrency();
 //        Debug.Log(currency);
-        if(currency <= 10){
+        if(currency <= 20){
             btn.interactable = false;
         }else{
             btn.interactable = true;
