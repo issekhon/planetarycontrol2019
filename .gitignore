@@ -34,22 +34,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-Assets/Models/Soldier/EnemySoldierModel.fbx.meta
-Assets/Prefabs/Characters/Soldier/SoldierModel.prefab
-Assets/Prefabs/World/2 Story Building V2.prefab
-Assets/Scenes/WorldMapTest.unity
-Assets/Scripts/laserBulletScript.cs
-Assets/Models/Materials.meta
-Assets/Materials/SoldierMats/blinn1.mat
-Assets/Animations/soldier/soldierAnimContrl.controller
-Assets/Animations/soldier/run.anim.meta
-Assets/Animations/soldier/run.anim
-Assets/Animations/soldier/idle.anim.meta
-Assets/Materials/BuildingV3.meta
-Assets/Materials/Level2City.meta
-Assets/Materials/RoofFenceMats.meta
-Assets/Textures/marsRockTexture.jpg.meta
-Assets/Textures/NewLayer 1.terrainlayer.meta
-Assets/Textures/NewLayer 2.terrainlayer.meta
-Assets/Textures/NewLayer.terrainlayer.meta
-Assets/Textures/rocktexture.jpg.meta
