@@ -102,7 +102,7 @@ public class moveUnit : MonoBehaviour
         {
             if (modeManager.currentMode == gameModeManager.Mode.thirdperson && selected)
             {
-                UpdateNavMeshDesync();
+                if (!myContrl.jumping) UpdateNavMeshDesync();
             }
 
             // Cast rays from mouse to see if player clicked on me
@@ -129,7 +129,9 @@ public class moveUnit : MonoBehaviour
                             if (myOutline.OutlineWidth == 0f) myOutline.OutlineWidth = outlineWidth;
                             if (Input.GetMouseButtonDown(0))
                             {
+                                //Debug.Log(this.gameObject.name + ": selected = true");
                                 selected = true;
+                                _navMeshAgent.isStopped = true;
                                 cam.GetComponent<isometricCamera>().selectedPlayer = this.gameObject;
                                 cam.GetComponent<ThirdPersonCamera>().selectedPlayer = this.gameObject;
                                 return;
@@ -146,7 +148,7 @@ public class moveUnit : MonoBehaviour
                 }
 
                 // If I am selected, then check to see if I click on a location to move me
-                if (selected && _navMeshAgent.isStopped)
+                else if (selected && _navMeshAgent.isStopped)
                 {
                     if (myOutline.OutlineWidth == 0f) myOutline.OutlineWidth = outlineWidth;
                     if (myOutline.OutlineColor != outlineSelectedColor) myOutline.OutlineColor = outlineSelectedColor;
@@ -165,7 +167,6 @@ public class moveUnit : MonoBehaviour
                                 if (Vector3.Distance(this.transform.position, hit.transform.position) < attackDistance && !attackedThisTurn)
                                 {
                                     //Debug.Log("Fight engaged!");
-                                    modeManager.ChangeMode(gameModeManager.Mode.transitionToThirdPerson);
                                     modeManager.fightDuration = modeManager.defaultFightDuration + myContrl.currentActionPoints;
                                     myContrl.previewActionPoints = 0f;
                                     myContrl.currentActionPoints = 0f;
@@ -175,6 +176,7 @@ public class moveUnit : MonoBehaviour
                                     enemiesController.currentEnemyRef = hit.transform.gameObject;
                                     enemiesController.currentState = EnemyControllerAI.EnemyAiStates.tpPlayerSearch;
                                     enemiesController.target = this.gameObject;
+                                    modeManager.ChangeMode(gameModeManager.Mode.transitionToThirdPerson);
                                     return;
                                 }
                             }
@@ -193,10 +195,14 @@ public class moveUnit : MonoBehaviour
                             }
                             else if (hit.transform.tag == "Player")
                             {
-                                selected = false;
-                                myOutline.OutlineWidth = 0f;
-                                myOutline.OutlineColor = outlineHoverColor;
-                                return;
+                                if (hit.transform.gameObject != this.gameObject)
+                                {
+                                    //Debug.Log("unselect me");
+                                    selected = false;
+                                    myOutline.OutlineWidth = 0f;
+                                    myOutline.OutlineColor = outlineHoverColor;
+                                    return;
+                                }
                             }
 
                             NavMeshHit closestPoint;
@@ -228,6 +234,7 @@ public class moveUnit : MonoBehaviour
                         if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
                         {
                             _navMeshAgent.isStopped = true;
+                            //Debug.Log(this.gameObject.name + ": navmeshstopped, unselect me");
                             selected = false;
                             myOutline.OutlineColor = outlineHoverColor;
                             myOutline.OutlineWidth = 0f;
@@ -349,7 +356,9 @@ public class moveUnit : MonoBehaviour
 
     void UpdateNavMeshDesync()
     {
-        ////_navMeshAgent.updatePosition = false;
+        //_navMeshAgent.updatePosition = false;
+        //_navMeshAgent.isStopped = true;
+        //_navMeshAgent.ResetPath();
         NavMeshHit testpoint;
         NavMesh.SamplePosition(this.transform.position, out testpoint, 5f, NavMesh.AllAreas);
 

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WorldMapTest.unity
     guid: 4c207c36196ba234cb3c6e6ee1e76264
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 45dec2765a1a2e841bd5481ffa50f4cd
   m_configObjects: {}

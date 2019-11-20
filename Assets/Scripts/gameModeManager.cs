@@ -20,6 +20,9 @@ public class gameModeManager : MonoBehaviour
     public int modeNum;
     public Mode currentMode = Mode.strategy;
 
+    public Image youWinImage;
+    public Image youLoseImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,13 +68,40 @@ public class gameModeManager : MonoBehaviour
         {
             currentTime = fightDuration;
             modeNum = 1;
+            foreach(Transform playerUnit in playerManager.transform)
+            {
+                if (!playerUnit.GetComponent<moveUnit>().selected)
+                {
+                    playerUnit.gameObject.SetActive(false);
+                }
+            }
+            foreach (Transform enemyUnit in enemyManager.transform)
+            {
+                if (!enemyUnit.GetComponent<enemySoldierAI>().selected)
+                {
+                    enemyUnit.gameObject.SetActive(false);
+                }
+            }
             //StartCoroutine(TransitionStrategyAfterTime(fightDuration));
         }
         else if (currentMode == Mode.transitionToThirdPerson)
         {
             //StartCoroutine(ThirdPersonAfterTime(transitionDuration));
-        } else if (currentMode == Mode.transitionToStrategy) {
+        }
+        else if (currentMode == Mode.transitionToStrategy)
+        {
             //StartCoroutine(ExecuteAfterTime(transitionDuration));
+
+            foreach (Transform playerUnit in playerManager.transform)
+            {
+                playerUnit.gameObject.SetActive(true);
+                playerUnit.GetComponent<moveUnit>().selected = false;
+            }
+            foreach (Transform enemyUnit in enemyManager.transform)
+            {
+                enemyUnit.gameObject.SetActive(true);
+                enemyUnit.GetComponent<enemySoldierAI>().selected = false;
+            }
         }
 
     }
@@ -110,6 +140,16 @@ public class gameModeManager : MonoBehaviour
                 turnEndButton.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void GameWon()
+    {
+        youWinImage.gameObject.SetActive(true);
+    }
+
+    public void GameLost()
+    {
+        youLoseImage.gameObject.SetActive(true);
     }
 
 

@@ -45,5 +45,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turn: 0
   battleCountdown: 0
+  transitionDuration: 5
+  defaultFightDuration: 10
+  fightDuration: 20
+  currentTime: 0
+  timerUI: {fileID: 0}
+  turnEndButton: {fileID: 0}
+  playerManager: {fileID: 0}
+  enemyManager: {fileID: 0}
   modeNum: 0
   currentMode: 0
+  youWinImage: {fileID: 0}
+  youLoseImage: {fileID: 0}

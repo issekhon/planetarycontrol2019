@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class enemySoldierAI : MonoBehaviour
 {
     [Header("Tuneable Values")]
+    public string unit_type;
     public float fullHealth = 100f;
     public float healthBarHeight = 1.96f;
     public float attackRange = 10f;
