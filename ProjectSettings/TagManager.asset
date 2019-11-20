@@ -9,6 +9,7 @@ TagManager:
   - EnemyBase
   - PlayerBase
   - EnemyController
+  - UIcontainer
   layers:
   - Default
   - TransparentFX

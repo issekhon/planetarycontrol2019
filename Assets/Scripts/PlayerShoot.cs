@@ -14,11 +14,14 @@ public class PlayerShoot : MonoBehaviour {
     public float fireRate = .25f;
     public float weaponRange = 50f;
     public float hitForce = 100f;
-
+   
     public Transform gunEnd;
     public Camera tpCam;
     public GameObject projectile;
     public GameObject crosshair;
+    GameObject[] units;
+    GameObject unit;
+    public int unitNum;
 
     private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
     private AudioSource gunAudio;
@@ -30,6 +33,9 @@ public class PlayerShoot : MonoBehaviour {
         laserLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         modeManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameModeManager>();
+        units = GameObject.FindGameObjectsWithTag("Player");
+        if(unitNum > 0 && unitNum <= units.Length) unit = units[unitNum - 1];
+        
     }
 
     // Update is called once per frame
@@ -71,7 +77,8 @@ public class PlayerShoot : MonoBehaviour {
                     }
 
                     GameObject tempProjectile = Instantiate(projectile, gunEnd.position + gunEnd.transform.forward * 2f, gunEnd.rotation);
-                    tempProjectile.GetComponent<laserBulletScript>().SetDamage(gunDamage);
+                    Dictionary<string, float> unit_attributes = unit.GetComponent<PlayerController>().getAttributesDic();
+                    tempProjectile.GetComponent<laserBulletScript>().SetDamage(unit_attributes["attackPower"]);
                 }
             }
         } 
